@@ -1,0 +1,14 @@
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  ports:
+    http: 80
+
+serverBlock: |-
+  server {
+    listen 0.0.0.0:8080;
+    location / {
+      proxy_pass http://127.0.0.1:8081/;
+    }
+  }

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wave-web
+  namespace: demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wave-web
+  template:
+    metadata:
+      labels:
+        app: wave-web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27
+        env:
+        - name: WELCOME
+          valueFrom:
+            configMapKeyRef:
+              name: web-config
+              key: WELCOME
+        ports:
+        - containerPort: 80
